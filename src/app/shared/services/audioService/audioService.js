@@ -1,21 +1,37 @@
 class AudioService {
   constructor() {
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    this.listenAudio = this.listenAudio.bind(this);
+    this.isPlaying = false;
+    this.loadAudio = this.loadAudio.bind(this);
   }
 
-  listenAudio(audioBuffer) {
-    if (this.source && this.source.buffer) {
-      this.source.stop();
+  loadAudio(audioBuffer) {
+    return new Promise((resolve, reject) => {
+      this.audioCtx.decodeAudioData(audioBuffer, (buffer) => {
+        this.currentBuffer = buffer;
+        resolve();
+      })
+    });
+  }
+
+  playAudio() {
+    if (!this.isPlaying) {
+      this.currentSource = this.audioCtx.createBufferSource();
+      this.currentSource.buffer = this.currentBuffer;
+      this.currentSource.connect(this.audioCtx.destination);
+      this.currentSource.start(0);
+      this.isPlaying = true;
     }
-    this.source = this.audioCtx.createBufferSource();
-    this.audioCtx.decodeAudioData(audioBuffer, (buffer) => {
-      this.source.buffer = buffer;
-      this.source.connect(this.audioCtx.destination);
-      this.source.start(0);
-    })
   }
+
+  stopAudio() {
+    if (this.isPlaying) {
+      this.isPlaying = false;
+      this.currentSource.disconnect(this.audioCtx.destination);
+      this.currentSource.stop();
+    }
+  }
+  
 }
 
 const audioService = new AudioService();

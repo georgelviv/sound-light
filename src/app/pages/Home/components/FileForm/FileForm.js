@@ -18,6 +18,7 @@ const FileForm = ({ onFileChange }) => {
               type="file" 
               id="audio-file" 
               name="audio-file"
+              accept=".mp3,audio/*"
               onChange={ onChange } /> 
           </div> 
         </div>

@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import { Layout } from 'common';
 import { store } from 'store';
-import './App.css';
+import './App.less';
 
 class App extends Component {
   render() {

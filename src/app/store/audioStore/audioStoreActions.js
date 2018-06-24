@@ -1,19 +1,35 @@
 import { audioService, FileService } from 'shared';
-
-export const AUDIO_ADD_AUDIO_SOURCE_ACTION = "[AUDIO] Add audio source";
-
-export const audioAddAudioSourceAction = (source) => {
-  return {
-    type: AUDIO_ADD_AUDIO_SOURCE_ACTION,
-    payload: source
-  }
-}
+import {
+  audioAddAudioSourceAction,
+  audioAddAudioSourceSuccessAction,
+  stopAudioAction,
+  playAudioAction
+} from './audioStoreAcionTypes';
 
 export const audioAddAudioSource = (source) => {
   return (dispatch) => {
     dispatch(audioAddAudioSourceAction(source));
 
     FileService.readFileAsBuffer(source)
-      .then(audioService.listenAudio);
+      .then(audioService.loadAudio)
+      .then(() => {
+        dispatch(audioAddAudioSourceSuccessAction(source));
+      });
+  }
+}
+
+export const stopAudio = () => {
+  return (dispatch) => {
+    audioService.stopAudio();
+
+    dispatch(stopAudioAction());
+  }
+}
+
+export const playAudio = () => {
+  return (dispatch) => {
+    audioService.playAudio();
+
+    dispatch(playAudioAction());
   }
 }
