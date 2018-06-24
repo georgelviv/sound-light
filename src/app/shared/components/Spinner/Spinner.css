@@ -1,0 +1,26 @@
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 70px;
+  height: 70px;
+  width: 70px;
+}
+
+.spinner i {
+  display: block;
+  height: 70px;
+  width: 70px;
+  animation: rotate-animation 1.5s infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotate-animation {
+  0%   { 
+    transform: rotate(0deg);
+  }
+  100%   { 
+    transform: rotate(360deg);
+  }
+}

@@ -1,28 +1,30 @@
-import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { audioService, FileService } from 'shared';
-import { FileForm } from './components';
+import { 
+  audioStoreSelector,
+  audioAddAudioSource,
+  audioFileNameSelector
+} from 'store';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
+import { HomePresentation } from './HomePresentation';
 
+const mapStateToProps = (state) => {
+  const audioStore = audioStoreSelector(state);
+  return { 
+    isAudioSourceProvided: audioStore.isSourceProvided,
+    isAudioLoading: audioStore.isLoading,
+    audioName: audioFileNameSelector(state)
+  };
+};
 
-    this.onFileChange = this.onFileChange.bind(this);
-  }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addAudioSource: (source) => {
+      dispatch(audioAddAudioSource(source));
+    }
+  };
+};
 
-  onFileChange(file) {
-    FileService.readFileAsBuffer(file)
-      .then(audioService.listenAudio);
-  }
-
-  render() {
-    return (
-      <div className="home">
-        <FileForm onFileChange={ this.onFileChange } />
-      </div>
-    );
-  }
-}
+const Home = connect(mapStateToProps, mapDispatchToProps)(HomePresentation);
 
 export { Home };
