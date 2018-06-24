@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { AudioService } from 'shared';
 import { Layout } from 'common';
-
-console.log(new AudioService());
 
 class App extends Component {
   render() {

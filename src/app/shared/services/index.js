@@ -1,1 +1,2 @@
-export * from './audioService';
+export * from './AudioService';
+export * from './FileService';

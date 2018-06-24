@@ -1,13 +1,21 @@
 class AudioService {
   constructor() {
-    this._initAudioContext();
+    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    this.source = this.audioCtx.createBufferSource();
+
+    this.listenAudio = this.listenAudio.bind(this);
   }
 
-  _initAudioContext() {
-    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  listenAudio(audioBuffer) {
+    console.log(this.source);
+    this.audioCtx.decodeAudioData(audioBuffer, (buffer) => {
+      this.source.buffer = buffer;
+      this.source.connect(this.audioCtx.destination);
+      this.source.start(0);
+    })
   }
 }
 
-console.log(AudioService);
+const audioService = new AudioService();
 
-export { AudioService };
+export { AudioService, audioService };
