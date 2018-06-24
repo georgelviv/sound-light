@@ -1,31 +1,26 @@
+import { AudioFile } from './AudioFile';
+
 class AudioService {
   constructor() {
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     this.isPlaying = false;
     this.loadAudio = this.loadAudio.bind(this);
-    this.audioTime = 0;
   }
 
   loadAudio(readedFile) {
     return new Promise((resolve, reject) => {
+      this.audioFile = new AudioFile(readedFile.file);
       this.audioCtx.decodeAudioData(readedFile.buffer, (buffer) => {
-        this.currentBuffer = buffer;
-        resolve({
-          fileName: readedFile.file.name,
-          type: readedFile.file.type,
-          duration: buffer.duration
-        });
+        this.audioFile.provideBuffer(buffer);
+        resolve(this.audioFile);
       })
     });
   }
 
   playAudio() {
     if (!this.isPlaying) {
-      this.currentSource = this.audioCtx.createBufferSource();
-      this.currentSource.buffer = this.currentBuffer;
-      this.currentSource.connect(this.audioCtx.destination);
-      this.currentSourceStart = new Date();
-      this.currentSource.start(0, this.audioTime);
+      this.audioFile.setupBufferSource(this.audioCtx.createBufferSource());
+      this.audioFile.play(this.audioCtx.destination);
       this.isPlaying = true;
     }
   }
@@ -33,22 +28,19 @@ class AudioService {
   stopAudio() {
     if (this.isPlaying) {
       this.isPlaying = false;
-      this.currentSource.disconnect(this.audioCtx.destination);
-      this.currentSource.stop();
-      this.audioTime = 0;
+      this.audioFile.stop(this.audioCtx.destination);
     }
   }
 
   pauseAudio() {
     if (this.isPlaying) {
       this.isPlaying = false;
-      this.currentSource.disconnect(this.audioCtx.destination);
-      this.currentSource.stop();
-      this.audioTime = this.audioTime + Math.round((new Date() - this.currentSourceStart) / 1000);
+      this.audioFile.pause(this.audioCtx.destination);
     }
   }
-  
 }
+
+
 
 const audioService = new AudioService();
 
