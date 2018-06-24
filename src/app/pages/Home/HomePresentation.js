@@ -1,7 +1,6 @@
 import React from 'react';
-import { FileForm } from './components';
 import { Spinner } from 'shared';
-import { AudioActions } from './components';
+import { FileForm, AudioActions, AudioProgress } from './components';
  
 import './Home.less';
 
@@ -10,13 +9,11 @@ const HomePresentation = ({
   isAudioLoading, 
   addAudioSource, 
   audioName,
-  isAudioLoaded,
-  stopAudio,
-  playAudio
+  isAudioLoaded
 }) => {
 
   return (
-    <div className="home">
+    <div className='home'>
       { !isAudioSourceProvided && (
           <div>
             <h2>Please choose audio file</h2>
@@ -26,15 +23,21 @@ const HomePresentation = ({
       }
       { isAudioLoading && (
           <div>
-            Loading <span className="font-italic">{ audioName }</span>
             <Spinner />
           </div>
           )
       }
       { isAudioLoaded && (
           <div>
-            Loaded <span className="font-italic">{ audioName }</span>
-            <AudioActions onPlayClick={ playAudio } onStopClick={ stopAudio } />
+            <div className='home__title'>
+              <span className='font-italic'>{ audioName }</span>
+            </div>
+            <div className='home__progress'>
+              <AudioProgress />
+            </div>
+            <div className="home__actions">
+              <AudioActions />
+            </div>
           </div>
           )
       }  

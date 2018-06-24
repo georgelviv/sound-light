@@ -5,7 +5,9 @@ class FileService {
 
       reader.onload = () => {
         const result = reader.result;
-        resolve(result);
+        resolve({
+          file, buffer: result
+        });
       };
   
       reader.readAsArrayBuffer(file);

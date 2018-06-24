@@ -3,7 +3,8 @@ import {
   audioAddAudioSourceAction,
   audioAddAudioSourceSuccessAction,
   stopAudioAction,
-  playAudioAction
+  playAudioAction,
+  pauseAudioAction
 } from './audioStoreAcionTypes';
 
 export const audioAddAudioSource = (source) => {
@@ -12,8 +13,8 @@ export const audioAddAudioSource = (source) => {
 
     FileService.readFileAsBuffer(source)
       .then(audioService.loadAudio)
-      .then(() => {
-        dispatch(audioAddAudioSourceSuccessAction(source));
+      .then((audioFile) => {
+        dispatch(audioAddAudioSourceSuccessAction(audioFile));
       });
   }
 }
@@ -31,5 +32,13 @@ export const playAudio = () => {
     audioService.playAudio();
 
     dispatch(playAudioAction());
+  }
+}
+
+export const pauseAudio = () => {
+  return (dispatch) => {
+    audioService.pauseAudio();
+
+    dispatch(pauseAudioAction());
   }
 }

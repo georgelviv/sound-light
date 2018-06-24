@@ -5,8 +5,6 @@ import {
   audioAddAudioSource,
   audioFileNameSelector,
   audioIsLoadingSelector,
-  stopAudio,
-  playAudio
 } from 'store';
 
 import { HomePresentation } from './HomePresentation';
@@ -25,12 +23,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addAudioSource: (source) => {
       dispatch(audioAddAudioSource(source));
-    },
-    stopAudio: () => {
-      dispatch(stopAudio());
-    },
-    playAudio: () => {
-      dispatch(playAudio());
     }
   };
 };

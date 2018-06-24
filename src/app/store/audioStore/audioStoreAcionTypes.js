@@ -2,6 +2,7 @@ export const AUDIO_ADD_AUDIO_SOURCE_ACTION = "[AUDIO] Add audio source";
 export const AUDIO_ADD_AUDIO_SOURCE_SUCCESS_ACTION = "[AUDIO] Add audio source success";
 export const AUDIO_STOP_AUDIO_ACTION = "[AUDIO] Stop audio";
 export const AUDIO_PLAY_AUDIO_ACTION = "[AUDIO] Play audio";
+export const AUDIO_PAUSE_AUDIO_ACTION = "[AUDIO] Pause audio";
 
 export const audioAddAudioSourceAction = (source) => {
   return {
@@ -26,5 +27,11 @@ export const stopAudioAction = () => {
 export const playAudioAction = () => {
   return {
     type: AUDIO_PLAY_AUDIO_ACTION
+  }
+}
+
+export const pauseAudioAction = () => {
+  return {
+    type: AUDIO_PAUSE_AUDIO_ACTION
   }
 }

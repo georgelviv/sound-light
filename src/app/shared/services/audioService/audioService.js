@@ -3,13 +3,18 @@ class AudioService {
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     this.isPlaying = false;
     this.loadAudio = this.loadAudio.bind(this);
+    this.audioTime = 0;
   }
 
-  loadAudio(audioBuffer) {
+  loadAudio(readedFile) {
     return new Promise((resolve, reject) => {
-      this.audioCtx.decodeAudioData(audioBuffer, (buffer) => {
+      this.audioCtx.decodeAudioData(readedFile.buffer, (buffer) => {
         this.currentBuffer = buffer;
-        resolve();
+        resolve({
+          fileName: readedFile.file.name,
+          type: readedFile.file.type,
+          duration: buffer.duration
+        });
       })
     });
   }
@@ -19,7 +24,8 @@ class AudioService {
       this.currentSource = this.audioCtx.createBufferSource();
       this.currentSource.buffer = this.currentBuffer;
       this.currentSource.connect(this.audioCtx.destination);
-      this.currentSource.start(0);
+      this.currentSourceStart = new Date();
+      this.currentSource.start(0, this.audioTime);
       this.isPlaying = true;
     }
   }
@@ -29,6 +35,16 @@ class AudioService {
       this.isPlaying = false;
       this.currentSource.disconnect(this.audioCtx.destination);
       this.currentSource.stop();
+      this.audioTime = 0;
+    }
+  }
+
+  pauseAudio() {
+    if (this.isPlaying) {
+      this.isPlaying = false;
+      this.currentSource.disconnect(this.audioCtx.destination);
+      this.currentSource.stop();
+      this.audioTime = this.audioTime + Math.round((new Date() - this.currentSourceStart) / 1000);
     }
   }
   

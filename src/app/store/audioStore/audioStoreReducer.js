@@ -2,14 +2,15 @@ import {
   AUDIO_ADD_AUDIO_SOURCE_ACTION,
   AUDIO_ADD_AUDIO_SOURCE_SUCCESS_ACTION,
   AUDIO_STOP_AUDIO_ACTION,
-  AUDIO_PLAY_AUDIO_ACTION
+  AUDIO_PLAY_AUDIO_ACTION,
+  AUDIO_PAUSE_AUDIO_ACTION
 } from './audioStoreAcionTypes';
 
 const initialState = {
   isSourceProvided: false,
   isLoaded: false,
-  source: {},
   isPlaying: false,
+  audioFile: {}
 };
 
 const createNewState = (prevState, newState) => {
@@ -21,17 +22,18 @@ export const audioReducer = (prevState = initialState, action) => {
     case AUDIO_ADD_AUDIO_SOURCE_ACTION:
       
       return createNewState(prevState, {
-        source: action.payload,
         isSourceProvided: true,
         isLoaded: false
       });
 
     case AUDIO_ADD_AUDIO_SOURCE_SUCCESS_ACTION:
       return createNewState(prevState, {
-        isLoaded: true
+        isLoaded: true,
+        audioFile: action.payload
       });
 
     case AUDIO_STOP_AUDIO_ACTION:
+    case AUDIO_PAUSE_AUDIO_ACTION:
       return createNewState(prevState, {
         isPlaying: false
       });
@@ -40,6 +42,7 @@ export const audioReducer = (prevState = initialState, action) => {
       return createNewState(prevState, {
         isPlaying: true
       });
+    
 
     default:
       return prevState;
