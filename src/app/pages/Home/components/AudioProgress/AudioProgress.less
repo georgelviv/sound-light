@@ -1,0 +1,17 @@
+.audio-progress {
+  display: flex;
+  align-items: center;
+  &__bar-wrapper {
+    flex-grow: 1;
+  }
+  &__current-time {
+    padding-right: 10px;
+  }
+  &__duration {
+    padding-left: 10px;
+  }
+  &__bar {
+    will-change: width;
+    transition: none;
+  }
+}

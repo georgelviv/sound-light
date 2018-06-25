@@ -7,7 +7,7 @@ export const audioFileNameSelector = (store) => {
 
 export const audioFileDurationSelector = (store) => {
   const audiStore = audioStoreSelector(store);
-  return Math.ceil(audiStore.audioFile.duration);
+  return Math.floor(audiStore.audioFile.duration);
 };
 
 export const audioIsLoadingSelector = (store) => {

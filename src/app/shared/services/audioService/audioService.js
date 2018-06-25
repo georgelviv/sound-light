@@ -5,11 +5,16 @@ class AudioService {
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     this.isPlaying = false;
     this.loadAudio = this.loadAudio.bind(this);
+    this.onAudioEnded = this.onAudioEnded.bind(this);
   }
 
-  loadAudio(readedFile) {
+  loadAudio(readedFile, onAudioEndedCb = () => {}) {
     return new Promise((resolve, reject) => {
-      this.audioFile = new AudioFile(readedFile.file);
+      this.audioFile = new AudioFile(readedFile.file, () => {
+        this.onAudioEnded();
+        onAudioEndedCb();
+      });
+
       this.audioCtx.decodeAudioData(readedFile.buffer, (buffer) => {
         this.audioFile.provideBuffer(buffer);
         resolve(this.audioFile);
@@ -38,9 +43,15 @@ class AudioService {
       this.audioFile.pause(this.audioCtx.destination);
     }
   }
+
+  getCurretAudioFile() {
+    return this.audioFile;
+  }
+
+  onAudioEnded() {
+    this.isPlaying = false;
+  }
 }
-
-
 
 const audioService = new AudioService();
 

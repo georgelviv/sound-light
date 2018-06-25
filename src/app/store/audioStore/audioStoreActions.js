@@ -11,8 +11,14 @@ export const audioAddAudioSource = (source) => {
   return (dispatch) => {
     dispatch(audioAddAudioSourceAction(source));
 
+    const onEnded = () => {
+      dispatch(stopAudioAction());
+    };
+
     FileService.readFileAsBuffer(source)
-      .then(audioService.loadAudio)
+      .then((file) => {
+        return audioService.loadAudio(file, onEnded);
+      })
       .then((audioFile) => {
         dispatch(audioAddAudioSourceSuccessAction(audioFile));
       });
@@ -22,7 +28,6 @@ export const audioAddAudioSource = (source) => {
 export const stopAudio = () => {
   return (dispatch) => {
     audioService.stopAudio();
-
     dispatch(stopAudioAction());
   }
 }
@@ -30,7 +35,6 @@ export const stopAudio = () => {
 export const playAudio = () => {
   return (dispatch) => {
     audioService.playAudio();
-
     dispatch(playAudioAction());
   }
 }
@@ -38,7 +42,6 @@ export const playAudio = () => {
 export const pauseAudio = () => {
   return (dispatch) => {
     audioService.pauseAudio();
-
     dispatch(pauseAudioAction());
   }
 }

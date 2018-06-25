@@ -11,27 +11,30 @@ export const audioAddAudioSourceAction = (source) => {
   }
 }
 
-export const audioAddAudioSourceSuccessAction = (source) => {
+export const audioAddAudioSourceSuccessAction = (audioFile) => {
   return {
     type: AUDIO_ADD_AUDIO_SOURCE_SUCCESS_ACTION,
-    payload: source
+    payload: audioFile
   }
 }
 
-export const stopAudioAction = () => {
+export const stopAudioAction = (audioFile) => {
   return {
-    type: AUDIO_STOP_AUDIO_ACTION
+    type: AUDIO_STOP_AUDIO_ACTION,
+    payload: audioFile
   }
 }
 
-export const playAudioAction = () => {
+export const playAudioAction = (audioFile) => {
   return {
-    type: AUDIO_PLAY_AUDIO_ACTION
+    type: AUDIO_PLAY_AUDIO_ACTION,
+    payload: audioFile
   }
 }
 
-export const pauseAudioAction = () => {
+export const pauseAudioAction = (audioFile) => {
   return {
-    type: AUDIO_PAUSE_AUDIO_ACTION
+    type: AUDIO_PAUSE_AUDIO_ACTION,
+    payload: audioFile
   }
 }
