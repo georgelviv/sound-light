@@ -11,13 +11,19 @@ export const audioAddAudioSource = (source) => {
   return (dispatch) => {
     dispatch(audioAddAudioSourceAction(source));
 
-    const onEnded = () => {
-      dispatch(stopAudioAction());
+
+    const callbacks = {
+      onStopAudioCb: () => {
+        dispatch(stopAudioAction());
+      },
+      onAudioEndedCb: () => {
+        dispatch(stopAudioAction());
+      }
     };
 
     FileService.readFileAsBuffer(source)
       .then((file) => {
-        return audioService.loadAudio(file, onEnded);
+        return audioService.loadAudio(file, callbacks);
       })
       .then((audioFile) => {
         dispatch(audioAddAudioSourceSuccessAction(audioFile));

@@ -8,12 +8,14 @@ class AudioService {
     this.onAudioEnded = this.onAudioEnded.bind(this);
   }
 
-  loadAudio(readedFile, onAudioEndedCb = () => {}) {
+  loadAudio(readedFile, callBacks) {
+    this.callBacks = callBacks;
     return new Promise((resolve, reject) => {
-      this.audioFile = new AudioFile(readedFile.file, () => {
-        this.onAudioEnded();
-        onAudioEndedCb();
-      });
+      if (this.isPlaying) {
+        this.stopAudio();
+      }
+
+      this.audioFile = new AudioFile(readedFile.file, this.onAudioEnded);
 
       this.audioCtx.decodeAudioData(readedFile.buffer, (buffer) => {
         this.audioFile.provideBuffer(buffer);
@@ -34,6 +36,9 @@ class AudioService {
     if (this.isPlaying) {
       this.isPlaying = false;
       this.audioFile.stop(this.audioCtx.destination);
+      if (this.callBacks.onStopAudioCb) {
+        this.callBacks.onStopAudioCb();
+      }
     }
   }
 
@@ -50,6 +55,9 @@ class AudioService {
 
   onAudioEnded() {
     this.isPlaying = false;
+    if (this.callBacks.onAudioEndedCb) {
+      this.callBacks.onAudioEndedCb();
+    }
   }
 }
 

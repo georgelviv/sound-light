@@ -29,8 +29,13 @@ const HomePresentation = ({
       }
       { isAudioLoaded && (
           <div>
-            <div className='home__title'>
-              <span className='font-italic'>{ audioName }</span>
+            <div class="home__header row">
+              <div className='col-md-8'>
+                <span className='font-italic'>{ audioName }</span>
+              </div>
+              <div className="col-md-4">
+                <FileForm onFileChange={ addAudioSource } />
+              </div>
             </div>
             <div className='home__progress'>
               <AudioProgress />

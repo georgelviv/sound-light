@@ -7,21 +7,13 @@ const FileForm = ({ onFileChange }) => {
 
   return (
     <form>
-      <div className="form-group">
-        <div className="row">
-          <div className="col-2">
-            <label htmlFor="audio-file">Audio file</label>
-          </div>
-          <div className="col-10">
-            <input 
-              className="form-control-file" 
-              type="file" 
-              id="audio-file" 
-              name="audio-file"
-              accept=".mp3,audio/*"
-              onChange={ onChange } /> 
-          </div> 
-        </div>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" 
+          name="audio-file"
+          id="audio-file"
+          accept=".mp3,audio/*"
+          onChange={ onChange } />
+        <label class="custom-file-label" for="audio-file">Choose file</label>
       </div>
     </form>
   );
