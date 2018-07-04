@@ -29,7 +29,7 @@ const HomePresentation = ({
       }
       { isAudioLoaded && (
           <div>
-            <div class="home__header row">
+            <div className="home__header row">
               <div className='col-md-8'>
                 <span className='font-italic'>{ audioName }</span>
               </div>
