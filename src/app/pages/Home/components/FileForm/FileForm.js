@@ -6,10 +6,10 @@ const FileForm = ({ onFileChange }) => {
   };
 
   return (
-    <form>
+    <form className="file-form">
       <div className="custom-file">
         <input type="file" 
-          className="custom-file-input" 
+          className="custom-file-input file-form__input" 
           name="audio-file"
           id="audio-file"
           accept=".mp3,audio/*"

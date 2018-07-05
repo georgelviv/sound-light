@@ -1,8 +1,14 @@
 import React from 'react';
 import { Spinner } from 'shared';
-import { FileForm, AudioActions, AudioProgress } from './components';
+import {
+  FileForm,
+  AudioActions,
+  AudioProgress,
+  AudioVolume
+} from './components';
  
 import './Home.less';
+import {  } from './components/AudioVolume';
 
 const HomePresentation = ({ 
   isAudioSourceProvided, 
@@ -42,6 +48,7 @@ const HomePresentation = ({
             </div>
             <div className="home__actions">
               <AudioActions />
+              <AudioVolume />
             </div>
           </div>
           )
