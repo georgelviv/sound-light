@@ -3,6 +3,7 @@ import { AudioFile } from './AudioFile';
 class AudioService {
   constructor() {
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    this.gainNode = this.audioCtx.createGain();
     this.isPlaying = false;
     this.loadAudio = this.loadAudio.bind(this);
     this.onAudioEnded = this.onAudioEnded.bind(this);
@@ -27,7 +28,10 @@ class AudioService {
   playAudio() {
     if (!this.isPlaying) {
       this.audioFile.setupBufferSource(this.audioCtx.createBufferSource());
-      this.audioFile.play(this.audioCtx.destination);
+      
+      this.audioFile.play(this.gainNode);
+      this.gainNode.connect(this.audioCtx.destination);
+  
       this.isPlaying = true;
     }
   }
@@ -35,7 +39,7 @@ class AudioService {
   stopAudio() {
     if (this.isPlaying) {
       this.isPlaying = false;
-      this.audioFile.stop(this.audioCtx.destination);
+      this.audioFile.stop(this.gainNode);
       if (this.callBacks.onStopAudioCb) {
         this.callBacks.onStopAudioCb();
       }
@@ -45,8 +49,12 @@ class AudioService {
   pauseAudio() {
     if (this.isPlaying) {
       this.isPlaying = false;
-      this.audioFile.pause(this.audioCtx.destination);
+      this.audioFile.pause(this.gainNode);
     }
+  }
+
+  setVolume(value) {
+    this.gainNode.gain.setValueAtTime(value, this.audioCtx.currentTime);
   }
 
   getCurretAudioFile() {
