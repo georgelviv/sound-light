@@ -4,7 +4,8 @@ import {
   audioAddAudioSourceSuccessAction,
   stopAudioAction,
   playAudioAction,
-  pauseAudioAction
+  pauseAudioAction,
+  setVolumeLevelAudioAction
 } from './audioStoreAcionTypes';
 
 export const audioAddAudioSource = (source) => {
@@ -49,5 +50,12 @@ export const pauseAudio = () => {
   return (dispatch) => {
     audioService.pauseAudio();
     dispatch(pauseAudioAction());
+  }
+}
+
+export const setVolumeLevelAudio = (volumeLevel) => {
+  return (dispatch) => {
+    audioService.setVolume(volumeLevel);
+    dispatch(setVolumeLevelAudioAction(volumeLevel));
   }
 }
