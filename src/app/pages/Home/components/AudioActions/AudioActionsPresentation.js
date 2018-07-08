@@ -1,13 +1,19 @@
 import React from 'react';
 import './AudioActions.less';
 
-const AudioActionsPresentation = ({ stopAudio, playAudio, pauseAudio, isAudioPlaying }) => {
+const AudioActionsPresentation = ({ 
+  stopAudio,
+  playAudio,
+  pauseAudio,
+  isAudioPlaying,
+  isSourceProvided
+}) => {
   return (
     <div className="audio-actions">
       <button type="button" 
         onClick={ playAudio }
         className="btn btn-dark audio-actions__btn"
-        disabled={ isAudioPlaying }>
+        disabled={ isAudioPlaying || !isSourceProvided }>
         <i className="fas fa-play"></i>
       </button>
       <button type="button"

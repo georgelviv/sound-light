@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
   return {
     duration: audioFileDurationSelector(state),
     isPlaying: audioStore.isPlaying,
-    audioFile: audioStore.audioFile
+    audioFile: audioStore.audioFile,
+    isSourceProvided: audioStore.isSourceProvided
   };
 }
 

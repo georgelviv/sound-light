@@ -12,7 +12,8 @@ import { AudioActionsPresentation } from './AudioActionsPresentation';
 const mapStateToProps = (state) => {
   const audioStore = audioStoreSelector(state);
   return {
-    isAudioPlaying: audioStore.isPlaying
+    isAudioPlaying: audioStore.isPlaying,
+    isSourceProvided: audioStore.isSourceProvided
   };
 };
 

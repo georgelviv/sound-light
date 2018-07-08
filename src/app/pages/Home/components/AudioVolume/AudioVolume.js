@@ -5,7 +5,8 @@ import { audioStoreSelector, setVolumeLevelAudio } from 'store';
 const mapStateToProps = (state) => {
   const audioStore = audioStoreSelector(state);
   return {
-    audioVolumeLevel: audioStore.volumeLevel
+    audioVolumeLevel: audioStore.volumeLevel,
+    isSourceProvided: audioStore.isSourceProvided
   };
 }
 

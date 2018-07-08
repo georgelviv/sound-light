@@ -1,17 +1,15 @@
 import React from 'react';
-import { Spinner } from 'shared';
+import { SpinnerOverlay } from 'shared';
 import {
   FileForm,
-  AudioActions,
-  AudioProgress,
-  AudioVolume
+  AudioList,
+  AudioPlayer
 } from './components';
  
 import './Home.less';
 import {  } from './components/AudioVolume';
 
 const HomePresentation = ({ 
-  isAudioSourceProvided, 
   isAudioLoading, 
   addAudioSource, 
   audioName,
@@ -20,39 +18,25 @@ const HomePresentation = ({
 
   return (
     <div className='home'>
-      { !isAudioSourceProvided && (
-          <div>
-            <h2>Please choose audio file</h2>
-            <FileForm onFileChange={ addAudioSource } />
-          </div>
-          ) 
-      }
-      { isAudioLoading && (
-          <div>
-            <Spinner />
-          </div>
-          )
-      }
-      { isAudioLoaded && (
-          <div>
+      <div className="home__audio-navigation">
+        <FileForm onFileChange={ addAudioSource } />
+        
+          <div className="home__audio-navigation">
+            <div className="home__audio-list-wrapper">
+              <AudioList />
+            </div>
             <div className="home__header row">
-              <div className='col-md-8'>
-                <span className='font-italic'>{ audioName }</span>
+            { isAudioLoaded && (
+              <div className='col-md-12'>
+                <span className='home__audio-title font-italic'>{ audioName }</span>
               </div>
-              <div className="col-md-4">
-                <FileForm onFileChange={ addAudioSource } />
-              </div>
-            </div>
-            <div className='home__progress'>
-              <AudioProgress />
-            </div>
-            <div className="home__actions">
-              <AudioActions />
-              <AudioVolume />
+              )
+            }
             </div>
           </div>
-          )
-      }  
+        { isAudioLoading && ( <SpinnerOverlay />) }
+      </div>
+      <AudioPlayer />
     </div>
   );
 };

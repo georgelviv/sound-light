@@ -39,6 +39,8 @@ class AudioProgressPresentation extends Component {
   }
 
   getCurrentTime() {
+    if (!this.props.isSourceProvided) return 0;
+
     return this.props.audioFile.getCurrentTime() / 1000;
   }
 
@@ -65,9 +67,11 @@ class AudioProgressPresentation extends Component {
   }
 
   render() {
-    const formatedDuration = converSecondsInMinutes(Math.ceil(this.props.duration));
-    const formatedCurrentTime = converSecondsInMinutes(Math.floor(this.state.currentTime));
-    const progressInPx = this.getProgressInPx(this.state.currentTime, this.props.duration);
+    const duration = this.props.duration ? Math.ceil(this.props.duration) : 0;
+    const currentTime = this.state.currentTime ? Math.round(this.state.currentTime) : 0
+    const formatedDuration = converSecondsInMinutes(duration);
+    const formatedCurrentTime = converSecondsInMinutes(currentTime);
+    const progressInPx = this.getProgressInPx(currentTime, duration);
 
      return (
       <div className="audio-progress">
